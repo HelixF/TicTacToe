@@ -1,10 +1,9 @@
 // Player factory
-const createPlayer = (name, mark, cellIdArray) =>{
-    
-    markArray = [];
-    const addToArray = (cellIdArray) => markArray.push(cellIdArray);
+const createPlayer = (name, mark, markArray) =>{
 
-    return { name, mark, cellIdArray, addToArray, markArray };
+    const addToArray = (cellId) => markArray.push(cellId);
+
+    return { name, mark, addToArray, markArray };
 }
 
 //////////////////////
@@ -18,7 +17,8 @@ const gameBoard = (() => {
                         '', '', '',
                         '', '', ''];
 
-    return { boardArray };
+
+    return { boardArray, checkWin };
 })();
 
 //////////////////////////////
@@ -49,26 +49,38 @@ const gameFlowController = (() => {
     // Round counter
     let roundCounter = 0;
 
-    // New players
-    const playerOne = createPlayer('playerOne', 'X');
+    // New players. TODO: Create dynamically via DOM inputs.
+    const playerOne = createPlayer('playerOne', 'X', []);
+    const playerTwo = createPlayer('playerTwo', 'O', []);
 
     // Receives click event from displaycontroller with cell ID.
     const gameTurn = function(i) {
 
-        // Increments game round.
-        roundCounter++;
-
-        // Adds game board spot to players collection
-        playerOne.addToArray(i)
-        console.log(`Collection ${playerOne.markArray}`)
+        // Adds cellID to players collection. RoundCounter: even to playerOne, odd to playerTwo.
+        if ((roundCounter == 0) || (roundCounter % 2 ==  0)) {
+            playerOne.addToArray(i);
+            console.log(`Collection Player1 ${playerOne.markArray}`)
+        } else {
+            playerTwo.addToArray(i);
+            console.log(`Collection Player2 ${playerTwo.markArray}`) 
+        }
 
         // TODO evaluate player array for winning combo
+
+
+        // Increments game round.
+        roundCounter++;
+    }
+
+
+    // Function for determining which player is active for placing mark.
+    const placeMark = function(i) {
+
+        //if turn player1 set target inner html to playerone.mark
+
+        //else set target inner html to playertwo.mark
     }
 
     return { gameTurn }
 })();
 
-
-
-
- 
