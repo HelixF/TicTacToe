@@ -12,11 +12,35 @@ const createPlayer = (name, mark, markArray) =>{
 
 const gameBoard = (() => {
 
-    // Array that represents the 3x3 grid. 
+    // ???Array that represents the 3x3 grid.??? NEEDED?
     const boardArray = ['', '', '',
                         '', '', '',
                         '', '', ''];
 
+    // Winning combos
+    const winningCombo = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6] ]
+
+    // Function that checks for winning combos and returns true when matching.
+    const checkWin = function (markArray) {
+        let evalResult = false;
+
+        // Loops thorugh winning array combo to compare it to player array
+        for (let i = 0; i < winningCombo.length; i++) {
+
+            // Checks if first, second and third value of winning combo is in players array.
+            const checkFirst = markArray.includes(winningCombo[i][0]);
+            const checkSecond = markArray.includes(winningCombo[i][1]);
+            const checkThird = markArray.includes(winningCombo[i][2]); 
+
+            // If player array contains a winning combo set evalResult to true.
+            if (checkFirst === true && checkSecond === true && checkThird === true) {
+                evalResult = true;
+            }
+        }
+        // Return true if match is found. 
+        return evalResult;
+        
+    }
 
     return { boardArray, checkWin };
 })();
@@ -27,11 +51,11 @@ const gameBoard = (() => {
 
 const displayController = (() => {
 
-    // Adds event listeners to grid cells.e
+    // Adds event listeners to grid cells.
     const board = document.getElementsByClassName('gridCell')
     for (let i = 0; i < board.length; i++) {
         board[i].addEventListener('click', (e) => {
-            // Sends cell ID to Gameflow modul
+            // Sends cell ID to Gameflow modul on click
             gameFlowController.gameTurn(i)
         })};
     
@@ -65,7 +89,13 @@ const gameFlowController = (() => {
             console.log(`Collection Player2 ${playerTwo.markArray}`) 
         }
 
-        // TODO evaluate player array for winning combo
+        // Evaluate player array for winning combo
+        if (gameBoard.checkWin(playerOne.markArray) === true) {
+            alert('wohoo Player ONE'); //PLACEHOLDER
+        }
+        else if (gameBoard.checkWin(playerTwo.markArray) === true) {
+            alert('wohoo Player TWO'); //PLACEHOLDER
+        }
 
 
         // Increments game round.
@@ -83,4 +113,8 @@ const gameFlowController = (() => {
 
     return { gameTurn }
 })();
+
+
+            
+
 
