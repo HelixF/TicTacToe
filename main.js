@@ -58,10 +58,16 @@ const displayController = (() => {
             // Sends cell ID to Gameflow modul on click
             gameFlowController.gameTurn(i)
         })};
+
+    // Function for placing a players mark.
+    const placeMark = function(playerMark) {
+        if (event.target.innerHTML === '') {
+            event.target.innerHTML = playerMark;
+        } 
+    }    
     
+    return { board, placeMark };
 
-
-    return { board };
 })();
 
 /////////////////////
@@ -77,16 +83,24 @@ const gameFlowController = (() => {
     const playerOne = createPlayer('playerOne', 'X', []);
     const playerTwo = createPlayer('playerTwo', 'O', []);
 
-    // Receives click event from displaycontroller with cell ID.
+    // Evaluates each game turn. Receives click event from displaycontroller with cell ID.
     const gameTurn = function(i) {
 
         // Adds cellID to players collection. RoundCounter: even to playerOne, odd to playerTwo.
         if ((roundCounter == 0) || (roundCounter % 2 ==  0)) {
+            // Checks for empty cell
+            if (event.target.innerHTML === '') {
             playerOne.addToArray(i);
-            console.log(`Collection Player1 ${playerOne.markArray}`)
-        } else {
+            displayController.placeMark(playerOne.mark);
+            roundCounter++;
+            }
+        } else if (roundCounter % 2 != 0) {
+            // Checks for empty cell
+            if (event.target.innerHTML === '') {
             playerTwo.addToArray(i);
-            console.log(`Collection Player2 ${playerTwo.markArray}`) 
+            displayController.placeMark(playerTwo.mark)
+            roundCounter++;
+            }
         }
 
         // Evaluate player array for winning combo
@@ -96,19 +110,7 @@ const gameFlowController = (() => {
         else if (gameBoard.checkWin(playerTwo.markArray) === true) {
             alert('wohoo Player TWO'); //PLACEHOLDER
         }
-
-
-        // Increments game round.
-        roundCounter++;
-    }
-
-
-    // Function for determining which player is active for placing mark.
-    const placeMark = function(i) {
-
-        //if turn player1 set target inner html to playerone.mark
-
-        //else set target inner html to playertwo.mark
+        
     }
 
     return { gameTurn }
