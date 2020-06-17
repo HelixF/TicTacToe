@@ -110,6 +110,9 @@ const gameFlowController = (() => {
         else if (gameBoard.checkWin(playerTwo.markArray) === true) {
             alert('wohoo Player TWO'); //PLACEHOLDER
         }
+        else if (roundCounter === 9) {
+            alert('no winners this round');
+        }
         
     }
 
