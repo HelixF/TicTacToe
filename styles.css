@@ -1,3 +1,18 @@
+
+.mainContainer {
+    margin: 10% 25%;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    column-gap: 5px;
+}
+
+.inputContainer {
+    background-color: cornflowerblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .gridContainer {
     width: 400px;
     height: 400px;
@@ -8,8 +23,20 @@
     
 }
 
-.gridCell{
-    /* border: 1px solid; */
+.gridCell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     outline: 1px solid gray;
     font-size: 75px;
+}
+
+h3 {
+    margin: 15px auto;
+    color: white;
+}
+
+p{
+    margin: 5px auto;
+    color: white;
 }
