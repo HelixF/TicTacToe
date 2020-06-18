@@ -2,8 +2,9 @@
 const createPlayer = (name, mark, markArray) =>{
 
     const addToArray = (cellId) => markArray.push(cellId);
+    const clearArray = () => markArray.length = 0;
 
-    return { name, mark, addToArray, markArray };
+    return { name, mark, addToArray, markArray, clearArray };
 }
 
 //////////////////////
@@ -74,10 +75,17 @@ const displayController = (() => {
         winningPlayerDisplay.style.backgroundColor = 'Red';
     }
 
-    // Listening to reset button.
+    // Reset button.
     const resetGame = document.getElementById('resetGame');
-    resetGame.addEventListener('click', (e) => {
+    resetGame.addEventListener('click', () => {
         gameFlowController.resetGame();
+        // Reset grid.
+        for (let i = 0; i < board.length; i++) {
+            board[i].innerHTML = '';
+        }
+        // Reset current player to default & winning player display
+        activePlayerDisplay.innerHTML = 'Player One (X)';
+        winningPlayerDisplay.innerHTML = '';
     })
     
     return { board, placeMark, nextPlayer, winningPlayer };
@@ -136,7 +144,9 @@ const gameFlowController = (() => {
 
     // Function for controlling game reset.
     const resetGame = function() {
-        alert('works');
+        roundCounter = 0;
+        playerOne.clearArray();
+        playerTwo.clearArray();
     }
 
 
